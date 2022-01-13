@@ -64,7 +64,7 @@ async def on_raw_reaction_add(payload):
 
         # await payload.member.send('Thank you for passing the verification. Welcome to Crypto & Music!')
         
-        if (payload.member.guild.member_count - 2) =< 101:
+        if (payload.member.guild.member_count - 2) <= 101:
             role = get(payload.member.guild.roles, name = 'Early user')
             await payload.member.add_roles(role)
 
