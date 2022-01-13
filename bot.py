@@ -63,36 +63,10 @@ async def on_raw_reaction_add(payload):
 
 
         # await payload.member.send('Thank you for passing the verification. Welcome to Crypto & Music!')
-        template = Image.open("Template.png")
-        draw = ImageDraw.Draw(template) 
-        bold = ImageFont.truetype('Montserrat-bold.ttf', 36)
-        medium = ImageFont.truetype("Montserrat-Medium.ttf", 30)
-        draw.text((182, 313),"Welcome", (255,255,255),  font = bold)
-        draw.text((112, 389), f"{payload.member.guild.member_count - 2} Crypto & Musician", (255,255,255), font = medium)
-
-        size = (200, 200)
-        mask = Image.new('L', size, 0)
-        mask_draw = ImageDraw.Draw(mask) 
-        mask_draw.ellipse((0, 0) + size, fill=255)
-
-        data = requests.get(payload.member.avatar_url).content
-        with open('avatar_url.png', 'wb') as f:
-            f.write(data)
-
-        avatar = Image.open('avatar_url.png')
-
-        avatar_output = ImageOps.fit(avatar, mask.size, centering=(0.5, 0.5))
-        avatar_output.putalpha(mask)
-        template.paste(avatar_output, (172, 81), avatar_output)
-
-        template.save('template-with-info.png')
-
-
-        pic = discord.File('template-with-info.png')
-        # await ctx.send(file = pic)
-        channel_id = os.environ.get("WELCOME_CHANNEL")
-        channel = bot.get_channel(channel_id)
-        await channel.send(f'{payload.member.mention}', file=pic)
+        
+        if (payload.member.guild.member_count - 2) =< 101:
+            role = get(payload.member.guild.roles, name = 'Early user')
+            await payload.member.add_roles(role)
 
 token = os.environ.get("BOT_TOKEN")
 bot.run(str(token))
