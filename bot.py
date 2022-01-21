@@ -77,8 +77,8 @@ async def on_message(message):
     channel = bot.get_channel(int(channel_id))
         
     if role not in roles and 'http' in message.content and message.channel != channel:
-        await message.delete()
         await message.reply(f'Send any links exclusively to this channel - {channel.mention}')
+        await message.delete()
         
 
 token = os.environ.get("BOT_TOKEN")
