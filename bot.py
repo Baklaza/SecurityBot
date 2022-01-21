@@ -67,6 +67,19 @@ async def on_raw_reaction_add(payload):
         if (payload.member.guild.member_count - 2) <= 101:
             role = get(payload.member.guild.roles, name = 'Early user')
             await payload.member.add_roles(role)
+            
+@bot.event
+async def on_message(message):
+    role = get(message.guild.roles, name = 'Creator')
+    roles = [i for i in message.author.roles]
+
+    channel_id = os.environ.get('LINKS_CHANNEL_ID')
+    channel = bot.get_channel(int(channel_id))
+        
+    if role not in roles and 'http' in message.content and message.channel != channel:
+        await message.delete()
+        await message.reply(f'Send any links exclusively to this channel - {channel.mention}')
+        
 
 token = os.environ.get("BOT_TOKEN")
 bot.run(str(token))
